@@ -1,0 +1,161 @@
+Hackfusion
+
+Frontend
+Core Library & Language: React (v18.3.1) with TypeScript
+Build Tool & Development Server: Vite
+Styling & UI Components:
+Tailwind CSS (v3) for styling
+Shadcn UI (built on top of Radix UI primitives)
+Lucide React for icons
+Animations: Framer Motion
+State Management & Forms:
+React Query (@tanstack/react-query) for server state management
+React Hook Form with Zod for form validation and schema definition
+Routing: React Router DOM (v6)
+Charts: Recharts
+Testing: Vitest (unit/integration tests) and Playwright (E2E tests)
+⚙️ Backend
+Runtime Environment: Node.js
+Web Framework: Express
+Security & Middleware:
+Helmet (for secure HTTP headers)
+CORS (cross-origin resource sharing configuration)
+Express Rate Limit (for brute-force prevention on authentication routes)
+Authentication: JSON Web Tokens (jsonwebtoken) for session tokens and bcryptjs for secure password hashing
+Deployment/Serverless: Configured for Vercel serverless functions (with a redirect router mapping to /api/index.js)
+🗄️ Database
+Database Engine: PostgreSQL
+Database Providers:
+Neon (indicated by the @neondatabase/serverless driver)
+Supabase (indicated by a local supabase/ configuration and migrations folder)
+ORM (Object-Relational Mapper): Prisma Client (schemas defined in 
+
+schema.prisma
+ with models for User, Team, and Registration)
+
+
+
+trend2stock
+1. Frontend
+Core Framework: Next.js (v16.2.6) with React (v19)
+Language: TypeScript
+Styling: Tailwind CSS (v4.0) via PostCSS
+Icons: Lucide React
+Authentication & Client Services: Firebase Client SDK (v12.14.0) for user management and authentication
+Date & Time Utilities: Day.js
+Hosting/Deployment: Typically deployed on Vercel (configured to point to https://trend2stocks.vercel.app)
+2. Backend
+Web Framework: FastAPI (Python 3.11) served via Uvicorn
+AI & Multi-Agent Orchestration: LangGraph and LangChain (specifically utilizing langchain-openai and langchain-community) to coordinate a multi-agent system comprising:
+Discovery Agent: Scans news/RSS feeds for viral trends.
+Sentiment Agent: Assesses the social/public sentiment.
+Extraction Agent: Isolates key trends and phrases.
+Mapping Agent: Maps trending topics to relevant stock symbols.
+Analysis Agent: Synthesizes final insights.
+LLM Engine: Multi-provider support configured via environment variables:
+Groq (llama-3.3-70b-versatile) — used in production.
+OpenAI (gpt-4o-mini)
+Ollama (qwen2.5:3b) — for local testing and development.
+Financial & Market Data: Yahoo Finance API (yfinance)
+Task Scheduler: APScheduler (Advanced Python Scheduler) for running routine background background jobs to scrape and analyze trends.
+Auth & Server Admin: Firebase Admin SDK for server-side token validation and secure actions.
+Hosting/Deployment: Deployed on Render (as a Python web service).
+3. Database
+Production Database: PostgreSQL (hosted on Neon DB using psycopg2-binary and SSL connections).
+Local Development Database: SQLite (trend2stock.db).
+Database ORM: SQLAlchemy (v2.0+) for database operations and schema migration.
+
+
+justpaste
+1. Frontend (Client)
+Framework / Library: React 19
+Language: TypeScript
+Build Tool & Dev Server: Vite (v8)
+Routing: React Router DOM (v7) for client-side routing.
+Styling & UI:
+Tailwind CSS (v3) (with PostCSS and Autoprefixer) for utility-first styling.
+lucide-react for icons.
+clsx & tailwind-merge for conditionally constructing CSS classes.
+Core Functionalities:
+@hello-pangea/dnd for interactive drag-and-drop lists/blocks.
+axios for making HTTP requests to the backend server.
+socket.io-client for real-time WebSocket communication.
+date-fns for date manipulation and formatting.
+uuid for client-side unique ID generation.
+Linter: ESLint
+2. Backend (Server)
+Runtime: Node.js
+Language: JavaScript (Node.js/CommonJS)
+Web Framework: Express (v5) for handling REST API requests (like creating, updating, and deleting pads).
+Real-time Engine: Socket.io (v4) for real-time multiplayer updates.
+Security & Auth: bcrypt for hashing/verifying pad PINs.
+Other Utilities:
+cors for handling Cross-Origin Resource Sharing.
+dotenv for configuration using environment variables.
+nodemon (Dev Dependency) for hot-reloading.
+3. Database
+Database Management System: PostgreSQL
+Object-Relational Mapping (ORM): Prisma (utilizing @prisma/client and @prisma/adapter-pg to interface with the PostgreSQL database).
+
+
+eco tracker
+1. Database Layer
+Primary Database: Supabase (PostgreSQL)
+A shared cloud PostgreSQL instance accessed directly by the web frontend, mobile application, and backend API.
+Supabase Realtime API is utilized in both the web admin dashboard and the mobile app to sync new reports and status updates instantly.
+Key tables:
+reports: Stores citizen-reported complaints (e.g., resource type, location, severity, status, and metadata).
+profiles / user_profiles: Manages user profiles, role-based controls (admin vs. citizen), and communication preferences (phone, language, location).
+Fallback Databases (Configured in Backend):
+PostgreSQL (pg pool): Direct relational connection fallback.
+MongoDB (mongoose): Document-based database fallback.
+In-Memory Storage: Fallback storage used when no external database is connected.
+2. Back-End Layer
+The backend is a lightweight Node.js/Express service that processes incoming webhooks, logs reports, and communicates with telephony services.
+
+Language & Runtime: Node.js (CommonJS)
+Web Framework: Express.js (express)
+Key Integrations:
+Exotel IVR API/Webhooks: Handles incoming citizen telephony calls and parses IVR menu keypresses (DTMF inputs) to log complaints about water, power, or waste.
+Twilio API: Triggers automated outbound phone calls (using Twilio XML/Alice voice synthesis) to citizens when an administrator resolves a reported issue.
+Core Packages: cors, dotenv, axios, @supabase/supabase-js, pg, mongoose
+Key Files:
+
+
+server.js (Backend Entry)
+
+
+package.json (Backend Config)
+3. Front-End Layer (Web Admin Dashboard)
+The website is a responsive real-time dashboard used by city administrators to manage complaints, simulate reports, and review AI insights.
+
+Build Environment: Vite + React (v19)
+Language: TypeScript
+Styling: Tailwind CSS (v3) + PostCSS
+Key Packages:
+Data Visualization: recharts (custom interactive BarChart and PieChart for complaint metrics)
+Iconography: lucide-react
+HTTP Client: axios
+Database Client: @supabase/supabase-js
+Key Files:
+
+
+App.tsx (Frontend Core)
+
+
+package.json (Frontend Config)
+4. Mobile App Layer (Cross-Platform Citizen App)
+The mobile app enables citizens to report issues via form submissions, check nearby community complaints, and view government sustainability schemes.
+
+Framework: React Native + Expo (v54 / SDK 54)
+Language: TypeScript
+State Management: Zustand (zustand)
+Navigation: React Navigation (@react-navigation/native, @react-navigation/bottom-tabs, @react-navigation/native-stack)
+Device & Native Integration:
+GPS & Mapping: expo-location and react-native-maps for geolocating complaints.
+Media Capture: expo-image-picker to select or take complaint photos.
+Push Notifications: expo-notifications for real-time status alerts.
+Accessibility: expo-speech for speech-to-text / text-to-speech feedback.
+Charts & Layouts: react-native-chart-kit and react-native-svg
+
+
